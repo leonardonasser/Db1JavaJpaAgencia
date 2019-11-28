@@ -1,0 +1,55 @@
+package com.db1start.cidadesapi.domain.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "cidade")
+public class Cidade {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	
+	@Column(name = "nome", length = 60)
+	private String nome;
+	
+	@ManyToOne
+	@JoinColumn(name = "estado_id")
+	private Estado uf;
+	
+   
+	@OneToMany(mappedBy = "idAgencia", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	List<Agencia> agencia = new ArrayList<>();
+	
+	public Cidade() {}
+	
+	public Cidade(String nome, Estado uf) {
+		this.nome = nome;
+		this.uf = uf;
+		this.agencia= new ArrayList<>();
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public Estado getUf() {
+		return uf;
+		
+	}
+	
+}
